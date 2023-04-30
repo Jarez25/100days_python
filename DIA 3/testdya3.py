@@ -24,5 +24,5 @@ else:
     
 if color == 'morado' and forma == 'cuadrado' or tamaño == 'grande':
     print('esto es real')
-else:
+else: # el bloque else no lleva exprecion depende del bloque if y elif 
     print('falso')
