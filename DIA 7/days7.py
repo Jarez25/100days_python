@@ -32,3 +32,4 @@ print(inventario_game)
 inventario_game = {}
 
 print(inventario_game)
+
