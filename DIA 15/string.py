@@ -16,3 +16,10 @@ lista = set(enumerate(mensaje))
 print(dicc)
 print(tupla)
 print(lista)
+
+cadena = input()
+
+
+for l in cadena:
+    print(l)
+    

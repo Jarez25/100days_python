@@ -33,3 +33,6 @@ mensaje2 = ('Aquí hay un ejemplo'
 print(mensaje)
 print(mensaje2)
 print((texto+' ')*3)
+
+for letra in texto:
+    print(letra)
