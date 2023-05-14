@@ -1,7 +1,7 @@
 # classe y objetos II
 
 class persona:
-    doctor = 'carlos'
+    doctor = 'carlos' 
     
 persona.doctor
 
