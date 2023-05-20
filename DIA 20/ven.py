@@ -13,4 +13,15 @@ alto = 400
 an_pantalla = root.winfo_screenmmwidth()
 al_pantalla = root.winfo_screenheight()
 
-root.mainloop()
+cordenada_x = int((an_pantalla/2)-(ancho/2))
+cordenada_y = int((al_pantalla/2)-(alto/2))-37
+
+root.geometry('{}x{}+{}+{}'.format(ancho,alto,cordenada_x, cordenada_y))
+
+Label(text=f'pantalla ancho: {an_pantalla} pixeles').pack()
+Label(text=f'pantalla ancho: {al_pantalla} pixeles').pack()
+
+root.state('zoomed')# amplia la pantalla normal =  defaul, withdrawn = oculta la ventana se muesta con deiconify
+
+
+root.mainloop() 
