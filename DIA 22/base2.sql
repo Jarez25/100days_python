@@ -30,3 +30,4 @@ select max(edad) as mayor from usuario; -- seleciona el valor maximo de edad y e
 select min(edad) as mayor from usuario; -- seleciona el valor minimo de edad 
 
 select id as numeroid, name as nombre from usuario; -- solo seleciona las columnas
+
