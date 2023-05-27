@@ -1,0 +1,1 @@
+dict(nombre='jarez', apellido='medina', edad='25')
