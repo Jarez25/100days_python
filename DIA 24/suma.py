@@ -11,8 +11,8 @@ def sumar1(x,y, *args):
 sumar1(10, 7, 40, 40 ,80)
 
 def muestra_datos(**kwargs):
-    claves = tuple(kwargs.keys())
-    valores = tuple(kwargs.values())
+    claves = tuple(kwargs.keys()) #dict_keys
+    valores = tuple(kwargs.values()) #dict_values
     print(f"El {claves[0]} es {valores[0]}, sus {claves[1]} son {valores[1]} y tiene {valores[2]} años de {claves[2]}." )
     
 usuario1 = {"nombre":"Javier", "apellidos":"Gómez de la barca", "edad":"27"}
