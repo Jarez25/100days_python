@@ -7,7 +7,7 @@ def funcion_decoradora(funcion_a_decorar):
     return dentro
 
 @funcion_decoradora
-def suma():
+def suma(): #esta no recibe parametros
     print(15+20)
     
 @funcion_decoradora

@@ -1,7 +1,7 @@
 def funcion_decoradora(funcion_a_decorar):
     def dentro(*args, **kwargs):
         print('Esta es la función que decora')
-        funcion_a_decorar(*args, **kwargs)
+        funcion_a_decorar(*args, **kwargs) #agumentos de clave valor
         print('Esta es la segunda parte de la decoración')
     
     return dentro
