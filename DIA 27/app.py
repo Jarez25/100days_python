@@ -4,7 +4,7 @@ base_datos = sqlbd.BaseDatos(**sqlbd.acceso_bd)
 
 base_datos.motrasr_datos()
 
-#base_datos.borrar_datos('prueba')
+base_datos.borrar_datos('prueba1')
 
 
-base_datos.crear_datos('prueba1')    
+#base_datos.crear_datos('prueba1')    
