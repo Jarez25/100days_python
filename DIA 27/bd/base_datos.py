@@ -1,4 +1,7 @@
 import mysql.connector
+import os
+import subprocess
+import getpass
 
 # Conexión
 acceso_bd = {
@@ -6,6 +9,13 @@ acceso_bd = {
     'user': 'root',
     'password': '251115',
 }
+
+#--- Rutas
+Pcarpeta = os.path.dirname(__file__)
+
+respaldo = os.path.join(Pcarpeta ,'respaldo')
+print(respaldo)
+
 #La clase para hacer la conexion ala base de datos
 class BaseDatos:
     def __init__(self, **kwargs):
@@ -48,3 +58,8 @@ class BaseDatos:
             print(f'se creo la base de datos{nombre_bd}. exitosamente')
         except:
             print(f'Ya existe una base de datos con este nombre : {nombre_bd} ')
+            
+     #respaldo de la base de datos       
+    def copia_bd(self, nombre_bd):
+        with open(f'{respaldo}/{nombre_bd}.sql', 'w') as out:
+            subprocess.Popen(f'"C:/Program Files/MySQL/MySQL Workbench 8.0/"mysqldump --user=root --		password={getpass.getpass()} --databases {nombre_bd}', shell=True, stdout=out)

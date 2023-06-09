@@ -8,3 +8,6 @@ base_datos.borrar_datos('prueba1')
 
 
 #base_datos.crear_datos('prueba1')    
+
+
+base_datos.copia_bd('world')
