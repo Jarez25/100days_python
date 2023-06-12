@@ -12,9 +12,7 @@ acceso_bd = {
 
 #--- Rutas
 Pcarpeta = os.path.dirname(__file__)
-
 respaldo = os.path.join(Pcarpeta ,'respaldo')
-print(respaldo)
 
 #La clase para hacer la conexion ala base de datos
 class BaseDatos:
