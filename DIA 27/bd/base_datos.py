@@ -4,10 +4,11 @@ import subprocess
 import datetime
 
 # conexión con la base de datos
-acceso_bd = {"host": "localhost",
-             "user": "root",
-             "password": "251115",
-             }
+acceso_bd = {
+    "host": "localhost",
+    "user": "root",
+    "password": "251115",
+}
 
 # Rutas
 
@@ -22,7 +23,10 @@ class BaseDatos:
     def __init__(self, **kwargs):
         self.conector = mysql.connector.connect(**kwargs)
         self.cursor = self.conector.cursor()
+        self.host = kwargs['host']
+        self.usuario = kwargs['user']
         self.contrasena = kwargs["password"]
+        self.conexion_cerrada = False
 
     # Decoradora para el reporte de bases de datos en el servidor
     def reporte_bd(funcion_parametro):
@@ -32,19 +36,70 @@ class BaseDatos:
             BaseDatos.mostrar_bd(self)
 
         return interno
+    
+    @reporte_bd
+    def eliminar_bd(self, nombre_bd):
+        try:
+            self.cursor.execute(f"DROP DATABASE {nombre_bd}")
+            print(f"Se eliminó la base de datos {nombre_bd} correctamente.")
+        except:
+            print(f"Base de datos '{nombre_bd}' no encontrada.")
+        finally:
+            # Cierra el cursor y la conexión
+            self.cursor.close()
+            self.conector.close()
+            
+    def conexion(funcion_parametro):
+        def interno(self, *args, **kwargs):
+            try:
+                if self.conexion_cerrada:
+                    self.conector = mysql.connector.connect(
+                        host = self.host,
+                        user = self.usuario,
+                        password = self.contrasena
+                    )
+                # Se llama a la función externa
+                funcion_parametro(self, *args, **kwargs)
+            except:
+              	# Se informa de un error en la llamada
+                print("Ocurrió un error.")
+            finally:
+                if self.conexion_cerrada == True:
+                    pass
+                else:
+                    self.cursor.close()
+                    self.conector.close()
+                    print("Se cerró la conexión con el servidor.")
+                    self.conexion_cerrada = True
+        return interno
 
     # Consultas SQL
     def consulta(self, sql):
-        self.cursor.execute(sql)
-        return self.cursor
-
+        try:
+            self.cursor.execute(sql)
+            print('esta es la salida de la intrucions')
+            print(self.cursor.fetchmany(10))
+        except:
+            print('Ocurrio un error. Revisa la intruccion SQL.')
+            
     # Mostrar bases de datos
+    @conexion
     def mostrar_bd(self):
-        self.cursor.execute("SHOW DATABASES")
-        for bd in self.cursor:
-            print(bd)
+        try:
+            # Se informa de que se están obteniendo las bases de datos
+            print("Aquí tienes el listado de las bases de datos del servidor:")
+            # Realiza la consulta para mostrar las bases de datos
+            self.cursor.execute("SHOW DATABASES")
+            resultado = self.cursor.fetchall()
+            # Recorre los resultados y los muestra por pantalla
+            for bd in resultado:
+                print(bd)
+        except:
+            # Si ocurre una excepción, se avisa en la consola
+            print("No se pudieron obtener las bases de datos. Comprueba la conexión con el servidor.")
 
     # Eliminar bases de datos
+    @conexion
     @reporte_bd
     def eliminar_bd(self, nombre_bd):
         try:
@@ -73,6 +128,7 @@ class BaseDatos:
                 f'"C:/Program Files/MySQL/MySQL Workbench 8.0/"mysqldump --user=root --	password={self.contrasena} --databases {nombre_bd}',
                 shell=True, stdout=out)
 
+    # Crear tabla
     def crear_tabla(self, nombre_bd, nombre_tabla, columnas):
         # String para guardar el string con las columnas y tipos de datos
         columnas_string = ""
@@ -92,12 +148,25 @@ class BaseDatos:
         self.cursor.execute(sql)
         self.conector.commit()
 
+    # Eliminar tabla
+    def eliminar_tabla(self, nombre_bd, nombre_tabla):
+        try:
+            self.cursor.execute(f"USE {nombre_bd}")
+            self.cursor.execute(f"DROP TABLE {nombre_tabla}")
+            print(
+                f"Se eliminó la tabla {nombre_tabla} de la base de datos {nombre_bd} correctamente."
+            )
+        except:
+            print(
+                f"Ocurrió un error al intentar eliminar la tabla {nombre_tabla} de la base de datos {nombre_bd}."
+            )
+
 
 bd = BaseDatos(**acceso_bd)
 
 # Definir el nombre de la base de datos y el nombre de la tabla
 nombre_bd = "datos"
-nombre_tabla = "usuario"
+nombre_tabla = "user"
 
 # Definir la estructura de las columnas
 columnas = [
@@ -107,7 +176,7 @@ columnas = [
         "length": 11,
         "primary_key": True,
         "auto_increment": True,
-        "not_null": True
+        "not_null": True,
     },
     {
         "name": "nombre",
@@ -115,7 +184,7 @@ columnas = [
         "length": 50,
         "primary_key": False,
         "auto_increment": False,
-        "not_null": True
+        "not_null": True,
     },
     {
         "name": "edad",
@@ -123,9 +192,9 @@ columnas = [
         "length": 3,
         "primary_key": False,
         "auto_increment": False,
-        "not_null": True
-    }
+        "not_null": True,
+    },
 ]
 
 # Llamar a la función crear_tabla
-bd.crear_tabla(nombre_bd, nombre_tabla, columnas)
+#bd.crear_tabla(nombre_bd, nombre_tabla, columnas)
