@@ -4,9 +4,10 @@ base_datos = sqlbd.BaseDatos(**sqlbd.acceso_bd)
 
 #base_datos.mostrar_bd()
 
-base_datos.eliminar_bd('datos1')
+base_datos.mostrar_tablas('sys')
+#base_datos.eliminar_bd('datos1')
 
-base_datos.eliminar_bd('datos')
+#base_datos.eliminar_bd('datos')
 
 #base_datos.consulta('SHOW DATABASE') 
 

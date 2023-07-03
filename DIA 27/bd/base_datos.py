@@ -161,10 +161,30 @@ class BaseDatos:
                 f"Ocurrió un error al intentar eliminar la tabla {nombre_tabla} de la base de datos {nombre_bd}."
             )
 
+    @conexion
+    def mostrar_tablas(self, nombre_bd):
+        sql = f"SHOW DATABASES LIKE '{nombre_bd}'"
+        self.cursor.execute(sql)
+        resultado = self.cursor.fetchone()
+        if not resultado:
+            print(f'La base de datos {nombre_bd} no existe.')
+            return
+        self.cursor.execute(f"USE {nombre_bd};")
+        try:
+            self.cursor.execute("SHOW TABLES")
+            resultado = self.cursor.fetchall()
+            
+            print(f'esta es una lista de las tablas {nombre_tabla}')
+            for tabla in resultado:
+                null = 'no admite valores nulos' if columnas[2] == 'NO' else "Admite valores nulos"
+                primeryKey = 'es una clave primaria' if columnas[3] == 'PRI' else ''
+                foreingKey = 'es una clave foranea' if columnas[3] == 'MUL'  else ''
+                print(f'-{columnas[0]} ({columnas[1]}) {null} {primeryKey} {foreingKey}')
+        except:
+            print('Ocurrio un error, comprueba el nombre de la tabla')
 
 bd = BaseDatos(**acceso_bd)
 
-# Definir el nombre de la base de datos y el nombre de la tabla
 nombre_bd = "datos"
 nombre_tabla = "user"
 
@@ -198,3 +218,5 @@ columnas = [
 
 # Llamar a la función crear_tabla
 #bd.crear_tabla(nombre_bd, nombre_tabla, columnas)
+
+
