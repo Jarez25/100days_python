@@ -30,11 +30,15 @@ class BaseDatos:
 
     # Decoradora para el reporte de bases de datos en el servidor
     def reporte_bd(funcion_parametro):
-        def interno(self, nombre_db):
-            funcion_parametro(self, nombre_db)
-            print("Estas son las bases de datos que tiene el servidor:")
-            BaseDatos.mostrar_bd(self)
-
+        def interno(self, nombre_bd, *args):
+            sql = f"SHOW DATABASES LIKE '{nombre_bd}'"
+            self.cursor.execute(sql)
+            resultado = self.cursor.fetchone()
+            
+            if resultado:
+                print(f'la base de datos{nombre_bd} no existe')
+                return
+            return funcion_parametro(self, nombre_bd, *args)
         return interno
     
     @reporte_bd
@@ -78,7 +82,7 @@ class BaseDatos:
         try:
             self.cursor.execute(sql)
             print('esta es la salida de la intrucions')
-            print(self.cursor.fetchmany(10))
+            print(self.cursor.fetchall())
         except:
             print('Ocurrio un error. Revisa la intruccion SQL.')
             
@@ -182,6 +186,57 @@ class BaseDatos:
                 print(f'-{columnas[0]} ({columnas[1]}) {null} {primeryKey} {foreingKey}')
         except:
             print('Ocurrio un error, comprueba el nombre de la tabla')
+    
+    
+        # Método para mostrar las tablas de una base de datos
+    @conexion
+    @reporte_bd
+    def mostrar_tablas2(self, nombre_bd):
+        # Se selecciona la base de datos
+        self.cursor.execute(f"USE {nombre_bd};")
+        # Realiza la consulta para mostrar las tablas de la base de datos actual
+        self.cursor.execute("SHOW TABLES")
+        resultado = self.cursor.fetchall()
+        #Evalúa si no hay tablas en la base de datos
+        if resultado == []:
+            print(f"No hay tablas en la base de datos '{nombre_bd}'.")
+            return
+        print("Aquí tienes el listado de las tablas de la base de datos:")
+        # Recorre los resultados y los muestra por pantalla
+        for tabla in resultado:
+            print(f"-{tabla[0]}.")
+            
+            
+    @conexion
+    def insertar_registro(self, nombre_bd, nombre_tabla, registro):
+        self.cursor.execute(f"USE {nombre_bd}")
+
+        if not registro:  # Si está vacía
+            print("La lista de registro está vacía.")
+            return
+
+        # Obtener las columnas y los valores de cada diccionario
+        columnas = []
+        valores = []
+        for registro in registro:
+            columnas.extend(registro.keys())
+            valores.extend(registro.values())
+
+        columnas_string = '' # Convertir las columnas y los valores a strings
+        for columna in columnas:
+            columnas_string += f"{columna}, "
+        columnas_string = columnas_string[:-2]  # quita ka ultima coma y el espacio
+
+        valores_string = ''
+        for valor in valores:
+            valores_string += f"'{valor}', "
+        valores_string = valores_string[:-2]  #   quita ka ultima coma y el espacio
+
+        # Crear la instrucción 
+        sql = f"INSERT INTO {nombre_tabla} ({columnas_string}) VALUES ({valores_string})"
+        self.cursor.execute(sql)
+        self.conector.commit()
+        print("Registro añadido a la tabla.")
 
 bd = BaseDatos(**acceso_bd)
 
