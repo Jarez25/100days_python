@@ -7,7 +7,7 @@ import datetime
 acceso_bd = {
     "host": "localhost",
     "user": "root",
-    "password": "251115",
+    "password": "",
 }
 
 # Rutas
@@ -191,7 +191,7 @@ class BaseDatos:
         # Método para mostrar las tablas de una base de datos
     @conexion
     @reporte_bd
-    def mostrar_tablas2(self, nombre_bd):
+    def mostrar_tablas2(self, nombre_bd):#metodo de mostrar tablas
         # Se selecciona la base de datos
         self.cursor.execute(f"USE {nombre_bd};")
         # Realiza la consulta para mostrar las tablas de la base de datos actual
@@ -206,6 +206,7 @@ class BaseDatos:
         for tabla in resultado:
             print(f"-{tabla[0]}.")
             
+    
             
     @conexion
     def insertar_registro(self, nombre_bd, nombre_tabla, registro):
@@ -221,6 +222,7 @@ class BaseDatos:
         for registro in registro:
             columnas.extend(registro.keys())
             valores.extend(registro.values())
+        
 
         columnas_string = '' # Convertir las columnas y los valores a strings
         for columna in columnas:
