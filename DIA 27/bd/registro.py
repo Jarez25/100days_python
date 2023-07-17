@@ -11,4 +11,4 @@ registros = [
             ]
 
 for registro in registros:
-    base_datos.insertar_registro("nueva", "usuarios", registro)
+    base_datos.insertar_registro("pruebas", "usuarios", registro)

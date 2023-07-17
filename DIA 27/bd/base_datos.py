@@ -239,6 +239,50 @@ class BaseDatos:
         self.cursor.execute(sql)
         self.conector.commit()
         print("Registro añadido a la tabla.")
+        
+       # Método para eliminar registros con una condición
+    @conexion
+    def eliminar_registro(self, nombre_bd, nombre_tabla, condiciones):
+        try:
+            # Se selecciona la base de datos
+            self.cursor.execute(f"USE {nombre_bd}")
+            # Se crea la instrucción de eliminación
+            sql = f"DELETE FROM {nombre_tabla} WHERE {condiciones}"
+            # Se ejecuta y confirma
+            self.cursor.execute(sql)
+            self.conector.commit()
+            print("Registros eliminados.")
+        except:
+            print("Error al intentar borrar registros en la tabla.")
+            
+    @conexion  
+    @reporte_bd
+    def vaciar_tabla(self, nombre_bd, nombre_tabla):
+        try:
+            self.cursor.execute(f"USE {nombre_bd}")
+            # Se borran todos los registros de una tabla
+            sql = f"DELETE FROM {nombre_tabla}"
+            self.cursor.execute(sql)
+            self.conector.commit()
+            print("Se han borrado todos los registros de la tabla.")
+        except:
+            print("Error al intentar borrar los registros de la tabla.") 
+            
+    @conexion
+    @reporte_bd
+    def actualizar_registro(self, nombre_bd, nombre_tabla, columnas, condiciones):
+        try:
+          	# Se selecciona la base de datos
+            self.cursor.execute(f"USE {nombre_bd}")
+
+            # Crear la instrucción de actualización
+            sql = f"UPDATE {nombre_tabla} SET {columnas} WHERE {condiciones}"
+            # Se ejecuta la instrucción de actualización y se hace efectiva
+            self.cursor.execute(sql)
+            self.conector.commit()
+            print("Se actualizó el registro correctamente.")
+        except:
+            print("Ocurrió un error al intentar actualizar el registro.")
 
 bd = BaseDatos(**acceso_bd)
 
