@@ -7,7 +7,7 @@ import datetime
 acceso_bd = {
     "host": "localhost",
     "user": "root",
-    "password": "",
+    "password": "251115",
 }
 
 # Rutas
