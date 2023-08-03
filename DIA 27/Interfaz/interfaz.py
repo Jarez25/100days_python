@@ -1,39 +1,57 @@
-import tkinter as tk
+import customtkinter as ctk
 import os
 from PIL import ImageTk, Image
+from bd.base_datos import acceso_bd
 
 
 carpeta_principal = os.path.dirname(__file__)
 carpeta_imagenes = os.path.join(carpeta_principal, "img")
-print(carpeta_imagenes)
+
+ctk.set_appearance_mode('System')
+ctk.set_default_color_theme('blue')
 
 class Login:
     def __init__(self):
-        self.root = tk.Tk()
+        self.root = ctk.CTk()
         self.root.title("BD")
-        self.root.geometry("500x650")
+        self.root.geometry("400x600")
+        self.root.resizable(0,0)
 
 
         # Logo
-        logo = ImageTk.PhotoImage(Image.open(os.path.join(carpeta_imagenes, "darklork.png")))
-        tk.Label(self.root, image=logo).pack()
+        logo = ctk.CTkImage(
+            light_image=(Image.open(os.path.join(carpeta_imagenes, "darklork.png"))),
+            size=(250, 250)
+        )
+        
+        #muestra la imagen
+        tag = ctk.CTkLabel(master = self.root, image=logo, text = "")
+        tag.pack(pady = 15)
 
        
-        tk.Label(self.root, text="Usuario").pack()  # Campos de texto
-        self.usuario = tk.Entry(self.root)
+        ctk.CTkLabel(self.root, text="Usuario").pack()  # Campos de texto
+        self.usuario =ctk.CTkEntry(self.root)
         self.usuario.insert(0, "Jarez")
-        self.usuario.bind("<Button-1>", lambda e: self.usuario.delete(0, tk.END))
+        self.usuario.bind("<Button-1>", lambda e: self.usuario.delete(0, 'end'))
         self.usuario.pack()
 
         
-        tk.Label(self.root, text="Contraseña").pack() # Contraseña
-        self.contrasena = tk.Entry(self.root)
+        ctk.CTkLabel(self.root, text="Contraseña").pack() # Contraseña
+        self.contrasena = ctk.CTkEntry(self.root)
         self.contrasena.insert(0, "*******")
-        self.contrasena.bind("<Button-1>", lambda e: self.contrasena.delete(0, tk.END))
+        self.contrasena.bind("<Button-1>", lambda e: self.contrasena.delete(0, 'end'))
         self.contrasena.pack()
 
         # Botón de envío
-        tk.Button(self.root, text="Entrar").pack()
+        ctk.CTkButton(self.root, text="Entrar", command=self.validar).pack()
 
         # Bucle de ejecución
         self.root.mainloop()
+        #funcion para validar datos de acceso 
+    def validar(self):
+        obtener_user = self.usuario.get()
+        obtener_password = self.contrasena.get()
+        if obtener_user != acceso_bd['user'] or obtener_password != acceso_bd['password']:
+            ctk.CTkLabel(self.root, text = 'Usuario y contrasena incorrectos.').pack()
+        else:
+            ctk.CTkLabel(self.root, text=f'hola {obtener_user}. Espere unos momentos... !').pack()
