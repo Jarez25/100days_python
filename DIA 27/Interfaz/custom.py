@@ -8,9 +8,24 @@ root = customtkinter.CTk()
 root.geometry('400x240')
 
 def funcion_boton():
-    print('botones prsentes')
+    root.destroy()
+    ventana2 = customtkinter.CTk()
+    ventana2.title("Segunda ventana")
+    ventana2.geometry("300x100")
+    ventana2.mainloop()  
 
-button = customtkinter.CTkButton(master=root, text="CTkbutton", command=funcion_boton)
-button.place(relx=0.5, rely=0.5, anchor=tkinter.CENTER)
+
+def funcion_boton2():
+    root.destroy()  
+    ventana2 = customtkinter.CTk()
+    ventana2.title("tercera")
+    ventana2.geometry("300x100")
+    ventana2.mainloop() 
+
+button1 = customtkinter.CTkButton(master=root, text="Sventana", command=funcion_boton)
+button1.place(relx=0.5, rely=0.5, anchor=tkinter.CENTER)
+
+button2 = customtkinter.CTkButton(master=root, text="Tventana", command=funcion_boton2)
+button2.place(relx=0.5, rely=0.7, anchor=tkinter.CENTER)
 
 root.mainloop()

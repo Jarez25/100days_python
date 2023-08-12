@@ -49,9 +49,16 @@ class Login:
         self.root.mainloop()
         #funcion para validar datos de acceso 
     def validar(self):
-        obtener_user = self.usuario.get()
-        obtener_password = self.contrasena.get()
-        if obtener_user != acceso_bd['user'] or obtener_password != acceso_bd['password']:
-            ctk.CTkLabel(self.root, text = 'Usuario y contrasena incorrectos.').pack()
+        obtener_usuario = self.usuario.get() # Obtenemos el nombre de usuario
+        obtener_contrasena = self.contrasena.get() # Obtenemos la contraseña
+        
+        if obtener_usuario != acceso_bd["user"] or obtener_contrasena != acceso_bd["password"]:
+            if hasattr(self, "info_login"):
+                self.info_login.destroy()
+            self.info_login = ctk.CTkLabel(self.root, text="Usuario o contraseña incorrectos.")
+            self.info_login.pack()
         else:
-            ctk.CTkLabel(self.root, text=f'hola {obtener_user}. Espere unos momentos... !').pack()
+            if hasattr(self, "info_login"):
+                self.info_login.destroy()
+            self. info_login = ctk.CTkLabel(self.root, text=f"Hola, {obtener_usuario}. Espere unos instantes...")
+            self.info_login.pack()
