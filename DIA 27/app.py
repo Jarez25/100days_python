@@ -5,6 +5,7 @@ base_datos = sqlbd.BaseDatos(**sqlbd.acceso_bd)
 
 ventana = gui.Login()
 
+#ventada = gui.Ventana_opciones()
 base_datos.mostrar_bd()
 
 #base_datos.crear_bd('nueva')

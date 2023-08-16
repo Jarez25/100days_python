@@ -1,6 +1,6 @@
 import customtkinter as ctk
 import os
-from PIL import ImageTk, Image
+from PIL import Image
 from bd.base_datos import acceso_bd
 
 
@@ -62,3 +62,32 @@ class Login:
                 self.info_login.destroy()
             self. info_login = ctk.CTkLabel(self.root, text=f"Hola, {obtener_usuario}. Espere unos instantes...")
             self.info_login.pack()
+            self.root.destroy()
+            ventana_opciones = Ventana_opciones()
+
+class Ventana_opciones:
+    # Lista de textos de los botones
+    botones = ['Consulta SQL', 'Mostrar Bases de Datos','Eliminar Bases de Datos', 'Crear Bases de Datos',       'Crear Respaldos', 'Crear Tablas', 'Eliminar Tablas', 'Mostrar Tablas', 'Mostrar Columnas', 'Insertar   Registros', 'Eliminar Registros', 'Vaciar Tablas', 'Actualizar Registros']
+
+
+    def __init__(self):
+        self.root = ctk.CTk()
+        self.root.title("Opciones para trabajar con bases de datos.")
+
+        #Contador para la posición de los botones
+        contador = 0
+
+        # Crea los botones y establece su texto
+        for texto_boton in self.botones:
+            button = ctk.CTkButton(
+                master=self.root,
+                text=texto_boton,
+                height=25,
+                width=200
+            )
+            button.grid(row=contador//2, column=contador%2, padx=5, pady=5)
+        
+            # Incrementa el contador
+            contador += 1
+
+        self.root.mainloop()
