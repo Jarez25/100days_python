@@ -68,55 +68,55 @@ class Login:
 class FuncionesPrograma:
     def ventana_consultas(self):
         ventana = ctk.CTkToplevel()
-        ventana.title("Ventana de consultas SQL")
+        ventana.title("Consultas SQL")
         
     def ventana_mostrar_bases_datos(self):
         ventana = ctk.CTkToplevel()
-        ventana.title("Ventana para mostrar las bases de datos del servidor.")
+        ventana.title("Mostrar BD.")
         
     def ventana_eliminar_bases_datos(self):
         ventana = ctk.CTkToplevel()
-        ventana.title("Ventana para eliminar bases de datos")
+        ventana.title("Eliminar bases de datos")
         
     def ventana_crear_bases_datos(self):
         ventana = ctk.CTkToplevel()
-        ventana.title("Ventana para crear bases de datos")
+        ventana.title("Crear bases de datos")
         
     def ventana_crear_respaldos(self):
         ventana = ctk.CTkToplevel()
-        ventana.title("Ventana para crear respaldos")
+        ventana.title("Crear respaldos")
         
     def ventana_crear_tablas(self):
         ventana = ctk.CTkToplevel()
-        ventana.title("Ventana para crear tablas")
+        ventana.title("Crear tablas")
     
     def ventana_eliminar_tablas(self):
         ventana = ctk.CTkToplevel()
-        ventana.title("Ventana para eliminar tablas")
+        ventana.title("Eliminar tablas")
         
     def ventana_mostrar_tablas(self):
         ventana = ctk.CTkToplevel()
-        ventana.title("Ventana para mostrar tablas")
+        ventana.title("Mostrar tablas")
         
     def ventana_mostrar_columnas(self):
         ventana = ctk.CTkToplevel()
-        ventana.title("Ventana para mostrar columnas de una tabla")
+        ventana.title("Mostrar columnas de una tabla")
         
     def ventana_insertar_registros(self):
         ventana = ctk.CTkToplevel()
-        ventana.title("Ventana para insertar registros")
+        ventana.title("Insertar registros")
         
     def ventana_eliminar_registros(self):
         ventana = ctk.CTkToplevel()
-        ventana.title("Ventana para eliminar registros")
+        ventana.title("Eliminar registros")
         
     def ventana_vaciar_tablas(self):
         ventana = ctk.CTkToplevel()
-        ventana.title("Ventana para vaciar tablas")
+        ventana.title("Vaciar tablas")
     
     def ventana_actualizar_tablas(self):
         ventana = ctk.CTkToplevel()
-        ventana.title("Ventana para actualizar tablas")
+        ventana.title("Actualizar tablas")
         
 objeto_funciones = FuncionesPrograma()
 
