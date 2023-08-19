@@ -65,11 +65,78 @@ class Login:
             self.root.destroy()
             ventana_opciones = Ventana_opciones()
 
+class FuncionesPrograma:
+    def ventana_consultas(self):
+        ventana = ctk.CTkToplevel()
+        ventana.title("Ventana de consultas SQL")
+        
+    def ventana_mostrar_bases_datos(self):
+        ventana = ctk.CTkToplevel()
+        ventana.title("Ventana para mostrar las bases de datos del servidor.")
+        
+    def ventana_eliminar_bases_datos(self):
+        ventana = ctk.CTkToplevel()
+        ventana.title("Ventana para eliminar bases de datos")
+        
+    def ventana_crear_bases_datos(self):
+        ventana = ctk.CTkToplevel()
+        ventana.title("Ventana para crear bases de datos")
+        
+    def ventana_crear_respaldos(self):
+        ventana = ctk.CTkToplevel()
+        ventana.title("Ventana para crear respaldos")
+        
+    def ventana_crear_tablas(self):
+        ventana = ctk.CTkToplevel()
+        ventana.title("Ventana para crear tablas")
+    
+    def ventana_eliminar_tablas(self):
+        ventana = ctk.CTkToplevel()
+        ventana.title("Ventana para eliminar tablas")
+        
+    def ventana_mostrar_tablas(self):
+        ventana = ctk.CTkToplevel()
+        ventana.title("Ventana para mostrar tablas")
+        
+    def ventana_mostrar_columnas(self):
+        ventana = ctk.CTkToplevel()
+        ventana.title("Ventana para mostrar columnas de una tabla")
+        
+    def ventana_insertar_registros(self):
+        ventana = ctk.CTkToplevel()
+        ventana.title("Ventana para insertar registros")
+        
+    def ventana_eliminar_registros(self):
+        ventana = ctk.CTkToplevel()
+        ventana.title("Ventana para eliminar registros")
+        
+    def ventana_vaciar_tablas(self):
+        ventana = ctk.CTkToplevel()
+        ventana.title("Ventana para vaciar tablas")
+    
+    def ventana_actualizar_tablas(self):
+        ventana = ctk.CTkToplevel()
+        ventana.title("Ventana para actualizar tablas")
+        
+objeto_funciones = FuncionesPrograma()
+
 class Ventana_opciones:
-    # Lista de textos de los botones
-    botones = ['Consulta SQL', 'Mostrar Bases de Datos','Eliminar Bases de Datos', 'Crear Bases de Datos',       'Crear Respaldos', 'Crear Tablas', 'Eliminar Tablas', 'Mostrar Tablas', 'Mostrar Columnas', 'Insertar   Registros', 'Eliminar Registros', 'Vaciar Tablas', 'Actualizar Registros']
-
-
+    # Diccionario para los botones
+    botones = {'Consulta SQL': objeto_funciones.ventana_consultas, 
+               'Mostrar Bases de Datos': objeto_funciones.ventana_mostrar_bases_datos,
+               'Eliminar Bases de Datos': objeto_funciones.ventana_eliminar_bases_datos,
+               'Crear Bases de Datos': objeto_funciones.ventana_crear_bases_datos, 
+               'Crear Respaldos': objeto_funciones.ventana_crear_respaldos,
+               'Crear Tablas': objeto_funciones.ventana_crear_tablas,
+               'Eliminar Tablas': objeto_funciones.ventana_eliminar_tablas,
+               'Mostrar Tablas': objeto_funciones.ventana_mostrar_tablas,
+               'Mostrar Columnas': objeto_funciones.ventana_mostrar_columnas,
+               'Insertar Registros': objeto_funciones.ventana_insertar_registros,
+               'Eliminar Registros': objeto_funciones.ventana_eliminar_registros,
+               'Vaciar Tablas': objeto_funciones.ventana_vaciar_tablas,
+               'Actualizar Registros': objeto_funciones.ventana_actualizar_tablas
+               }
+    
     def __init__(self):
         self.root = ctk.CTk()
         self.root.title("Opciones para trabajar con bases de datos.")
@@ -83,11 +150,12 @@ class Ventana_opciones:
                 master=self.root,
                 text=texto_boton,
                 height=25,
-                width=200
+                width=200,
+                command=self.botones[texto_boton]
             )
-            button.grid(row=contador//2, column=contador%2, padx=5, pady=5)
+            button.grid(row=contador//3, column=contador%3, padx=5, pady=5)
         
             # Incrementa el contador
             contador += 1
-
+            
         self.root.mainloop()
