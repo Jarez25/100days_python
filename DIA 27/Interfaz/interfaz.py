@@ -1,14 +1,19 @@
+from bd.base_datos import BaseDatos
 import customtkinter as ctk
+from CTkMessagebox import CTkMessagebox
+from tkinter.font import BOLD
 import os
 from PIL import Image
-from bd.base_datos import acceso_bd
-
+import bd.base_datos as sqlbd
 
 carpeta_principal = os.path.dirname(__file__)
 carpeta_imagenes = os.path.join(carpeta_principal, "img")
 
 ctk.set_appearance_mode('System')
 ctk.set_default_color_theme('blue')
+
+    #fuentes  
+fuente = ('Releway', 16, BOLD)
 
 class Login:
     def __init__(self):
@@ -52,24 +57,71 @@ class Login:
         obtener_usuario = self.usuario.get() # Obtenemos el nombre de usuario
         obtener_contrasena = self.contrasena.get() # Obtenemos la contraseña
         
-        if obtener_usuario != acceso_bd["user"] or obtener_contrasena != acceso_bd["password"]:
+        if obtener_usuario != sqlbd.acceso_bd["user"] or obtener_contrasena != sqlbd.acceso_bd["password"]:
             if hasattr(self, "info_login"):
                 self.info_login.destroy()
             self.info_login = ctk.CTkLabel(self.root, text="Usuario o contraseña incorrectos.")
             self.info_login.pack()
         else:
             if hasattr(self, "info_login"):
-                self.info_login.destroy()
-            self. info_login = ctk.CTkLabel(self.root, text=f"Hola, {obtener_usuario}. Espere unos instantes...")
-            self.info_login.pack()
-            self.root.destroy()
-            ventana_opciones = Ventana_opciones()
+                self.info_login = ctk.CTkLabel(self.root, text="Usuario o contraseña incorrectos.")
+            else:
+                self. info_login = ctk.CTkLabel(self.root, text=f"Hola, {obtener_usuario}. Espere unos instantes...")
+                self.info_login.pack()
+                self.root.destroy()
+                
+                ventana_opciones = Ventana_opciones()
 
 class FuncionesPrograma:
     def ventana_consultas(self):
         ventana = ctk.CTkToplevel()
         ventana.title("Consultas SQL")
-        
+        ventana.grab_set()
+
+            #frame
+        marco = ctk.CTkFrame(ventana)
+        marco.pack(padx=10, pady=10)
+
+        #entry para las consiltas
+        self.entrada = ctk.CTkEntry(marco, width=300)
+        self.entrada.configure(font = fuente)
+        self.entrada.grid(row=0, column=0)
+
+        #obtener logica del metodo de consultar base de datos
+
+        def procesar_datos():
+            try:
+                self.texto.delete('1.0', 'end')
+                # obtiene el contenido del entry
+                datos = self.entrada.get()
+                # llama al método base_datos.consulta() con los datos como argumento
+                resultado = BaseDatos.consulta(datos)
+                for registro in resultado:
+                    self.texto.insert('end', registro)
+                    self.texto.insert('end', '\n')
+                # Actualiza el contador de registros devueltos
+                numero_registros = len(resultado)
+                self.contador_registros.configure(text=f"Registros devueltos: {numero_registros}")
+            except AttributeError:
+                self.contador_registros.configure(text=f"Hay un error en tu consulta SQL. Por favor, revísela.")
+                CTkMessagebox(title="Error", message="¡Hay un error en tu consulta SQL! Por favor, revísela.", icon="cancel")
+        #boton de enviar
+
+        boton_enviar = ctk.CTkButton(marco, text="Enviar", command=lambda :  procesar_datos)
+        boton_enviar.grid(row=0, column = 1)
+
+        #boton Limpiar
+        boton_borrar = ctk.CTkButton(marco, text="Borrar", command=self.limpiar_texto)
+        boton_borrar.grid(row=0, column=2)
+
+        self.texto = ctk.CTkTextbox(marco, width=600, height=300)
+        self.texto.grid(row=1, column=0, columnspan=3, padx=10, pady=10)
+
+        self.contador_registro = ctk.CTkLabel(marco, text="Esperando una intruccion")
+        self.contador_registro.grid(row=2, column=0, columnspan=3, padx=10, pady=10)
+
+    def limpiar_texto(self):
+        self.texto.delete('1.0', 'end')
     def ventana_mostrar_bases_datos(self):
         ventana = ctk.CTkToplevel()
         ventana.title("Mostrar BD.")

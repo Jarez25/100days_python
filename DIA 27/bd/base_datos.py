@@ -46,8 +46,9 @@ class BaseDatos:
         try:
             self.cursor.execute(f"DROP DATABASE {nombre_bd}")
             print(f"Se eliminó la base de datos {nombre_bd} correctamente.")
-        except:
-            print(f"Base de datos '{nombre_bd}' no encontrada.")
+        except Exception as e:
+            print(f"Ocurrio un error en {e}")
+            raise e
         finally:
             # Cierra el cursor y la conexión
             self.cursor.close()
@@ -78,14 +79,18 @@ class BaseDatos:
         return interno
 
     # Consultas SQL
+    @conexion
     def consulta(self, sql):
         try:
             self.cursor.execute(sql)
-            print('esta es la salida de la intrucions')
-            print(self.cursor.fetchall())
-        except:
-            print('Ocurrio un error. Revisa la intruccion SQL.')
-            
+            self.resultado = self.cursor.fetchall()
+            return self.resultado
+        except Exception as e:
+            print(f"Ocurrió un error al ejecutar la consulta: {e}")
+            return None
+
+
+
     # Mostrar bases de datos
     @conexion
     def mostrar_bd(self):
