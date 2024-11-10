@@ -1,5 +1,6 @@
 import requests
 import json
+import urllib.parse
 
 if __name__ == '__main__':
     url = 'http://httpbin.org/post'
@@ -14,8 +15,9 @@ if __name__ == '__main__':
 
 
     if respuesta.status_code == 200:
-        #print(respuesta.content)
+        print(respuesta.content)
         headers_res = respuesta.headers
         #print(headers_res)
         server = headers_res['server']
+        print(server)
 
