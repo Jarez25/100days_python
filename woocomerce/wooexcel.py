@@ -1,6 +1,9 @@
-# -*- coding: utf-8 -*-
-import requests as rs
+import os
+import pandas as pd
 from woocommerce import API
+
+# Verificar el directorio actual
+print("Directorio actual:", os.getcwd())
 
 # Configuración de WooCommerce API
 wcapi = API(
@@ -11,53 +14,34 @@ wcapi = API(
 )
 
 
-def get_card(url="https://db.ygoprodeck.com/api/v7/cardinfo.php", offset=0):
-    # Parámetros de solicitud
-    params = {"num": 20, "offset": offset}
-
+def read_excel_and_create_products(file_path):
+    # Leer el archivo Excel
     try:
-        respuesta = rs.get(url, params=params)
-
-        if respuesta.status_code == 200:
-            payload = respuesta.json()
-            resultado = payload.get("data", [])
-
-            if resultado:
-                for card in resultado:
-                    card_id = card.get("id")
-                    name = card.get("name")
-                    description = card.get("desc", "Sin descripción")
-                    human_readable_card_type = card.get(
-                        "humanReadableCardType", "Sin categoría")
-                    archetype = card.get("archetype", "Sin arquetipo")
-                    price = card.get("card_prices", [{}])[
-                        0].get("tcgplayer_price", "1.99")
-                    image_url = card.get("card_images", [{}])[
-                        0].get("image_url")
-
-                    # Crear el producto en WooCommerce
-                    create_product_in_woocommerce(
-                        card_id=card_id,
-                        name=name,
-                        description=description,
-                        price=price,
-                        category=human_readable_card_type,
-                        tags=[archetype],
-                        image_url=image_url
-                    )
-                    print(f"Producto '{name}' creado en WooCommerce.")
-
-                next_step = input("¿Continuar Listado? [Y/N]: ").lower()
-                if next_step == "y":
-                    get_card(offset=offset + 20)
-                else:
-                    print("Listado detenido.")
-            else:
-                print("No hay más cartas para mostrar.")
-        else:
-            print("Error en la solicitud:", respuesta.status_code)
+        df = pd.read_excel(file_path)
     except Exception as e:
-        print("Error en la conexión:", e)
+        print(f"Error al leer el archivo Excel: {e}")
+        return
+
+    # Procesar cada fila en el DataFrame
+    for index, row in df.iterrows():
+        card_id = row.get("ID")
+        name = row.get("Name")
+        description = row.get("Description", "Sin descripción")
+        category = row.get("Category", "Sin categoría")
+        price = row.get("Price", "1.99")
+        image_url = row.get("Image URL", "")
+
+        # Crear el producto en WooCommerce
+        create_product_in_woocommerce(
+            card_id=card_id,
+            name=name,
+            description=description,
+            price=price,
+            category=category,
+            tags=[category],  # Usamos la categoría como etiqueta también
+            image_url=image_url
+        )
+        print(f"Producto '{name}' creado en WooCommerce.")
 
 
 def create_product_in_woocommerce(card_id, name, description, price, category, tags, image_url):
@@ -118,4 +102,6 @@ def get_or_create_tag(tag_name):
 
 
 if __name__ == '__main__':
-    get_card()
+    # Ruta relativa si está en la misma carpeta que el código
+    file_path = 'cartas_productos.xlsx'
+    read_excel_and_create_products(file_path)
