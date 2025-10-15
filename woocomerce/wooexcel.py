@@ -2,12 +2,12 @@ import os
 import pandas as pd
 from woocommerce import API
 
-# Verificar el directorio actual
+
 print("Directorio actual:", os.getcwd())
 
-# Configuración de WooCommerce API
+
 wcapi = API(
-    url="http://woocomertest.test",  # Cambia esto a tu URL local de WordPress
+    url="http://woocomertest.test",
     consumer_key="ck_a6966a362b7e0d41bfefe104c77aa1171d525d66",
     consumer_secret="cs_d256414cdef91bbad160621ffa336c167754074b",
     version="wc/v3"
@@ -15,14 +15,12 @@ wcapi = API(
 
 
 def read_excel_and_create_products(file_path):
-    # Leer el archivo Excel
     try:
         df = pd.read_excel(file_path)
     except Exception as e:
         print(f"Error al leer el archivo Excel: {e}")
         return
 
-    # Procesar cada fila en el DataFrame
     for index, row in df.iterrows():
         card_id = row.get("ID")
         name = row.get("Name")

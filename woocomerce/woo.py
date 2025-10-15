@@ -2,9 +2,9 @@
 import requests as rs
 from woocommerce import API
 
-# Configuración de WooCommerce API
+
 wcapi = API(
-    url="http://woocomertest.test",  # Cambia esto a tu URL local de WordPress
+    url="http://woocomertest.test",  
     consumer_key="ck_758e23a228b97539e94ec86cdb416e6179247810",
     consumer_secret="cs_d8abf301d44e10bd224823648ad0d67e0e2281f5",
     version="wc/v3"

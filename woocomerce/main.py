@@ -4,9 +4,9 @@ from woocommerce import API
 
 # Configuración de WooCommerce API
 wcapi = API(
-    url="http://woocomertest.test",  # Cambia esto a tu URL local de WordPress
-    consumer_key="ck_a6966a362b7e0d41bfefe104c77aa1171d525d66",
-    consumer_secret="cs_d256414cdef91bbad160621ffa336c167754074b",
+    url="http://telegran.test",  # Cambia esto a tu URL local de WordPress
+    consumer_key="ck_16e6900c7bb7eae06702a478c8b3e455a00623a1",
+    consumer_secret="cs_950614640a36fceb309c61141a16106db9afe11b",
     version="wc/v3"
 )
 
